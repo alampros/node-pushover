@@ -50,7 +50,6 @@ Pushover.prototype.send = function(options) {
 		user: this.user
 	}
 	for (var a in options) { defaults[a] = options[a]; }
-	console.log(defaults);
 	send(defaults);
 }
 
