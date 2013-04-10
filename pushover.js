@@ -38,60 +38,21 @@ function Pushover(options) {
 }
 
 /**
- * send([user,] title, message, [callback])
+ * send({[user,] [title,] message, title, ...)
  */
-Pushover.prototype.send = function(arg1, arg2, arg3, arg4) {
-	if( arguments.length == 2 ){
-		// (title, message)
-		if(!this.user) {
-			throw new Error('No user token defined');
-			return;
-		}
-
-		send({
-			token: this.token,
-			user: this.user,
-			title: arg1,
-			message: arg2
-		});
+Pushover.prototype.send = function(options) {
+	if(!options) {
+		throw new Error('No options object provided');
+		return;
 	}
-
-	if( arguments.length == 3 ){
-		if(typeof(arg3)==="function"){
-			// (title, message, callback)
-			if(!this.user) {
-				throw new Error('No user token defined');
-				return;
-			}
-			send({
-				token: this.token,
-				user: this.user,
-				title: arg1,
-				message: arg2
-			}, arg3);
-
-		}else{
-			// (user, title, message)
-			send({
-				token: this.token,
-				user: arg1,
-				title: arg2,
-				message: arg3
-			});
-
-		}
+	var defaults = {
+		token: this.token,
+		user: this.user
 	}
-
-	if( arguments.length == 4 ){
-		// (user, title, message, callback)
-		send({
-			token: this.token,
-			user: arg1,
-			title: arg2,
-			message: arg3
-		}, arg4);
-	}
-};
+	for (var a in options) { defaults[a] = options[a]; }
+	console.log(defaults);
+	send(defaults);
+}
 
 function send(parameters, callback){
 	httpreq.post("https://api.pushover.net/1/messages.json", { parameters: parameters}, function (err, res){

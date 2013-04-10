@@ -17,15 +17,10 @@ Initializes a Pushover object with the __APPTOKEN__ and optionally a __USERKEY__
 
 ## Sending messages
 
-### push.send([USERKEY,] title, message [,callback])
+### push.send({options})
 
-__Arguments__
- - USERKEY: (optional) The __USERKEY__ as given to you by the Pushover API.
- - title: The title for your message
- - message: The content for your message
- - callback(err, res): (optional) A callback function which is called when the message is send.
+User and app token are inherited from initialization. You may optionally pass either in the options hash to override.
 
-__Example with the USERKEY given at initialisation__
 
 ```js
 var Pushover = require('node-pushover');
@@ -34,43 +29,14 @@ var push = new Pushover({
 	user: "USERKEY"
 });
 
-// No callback function defined:
-push.send("Some title", "Node.js is Cool!! - no callback");
-
-// A callback function is defined:
-push.send("Some title", "Node.js is Cool!!", function (err, res){
-	if(err){
-		console.log("We have an error:");
-		console.log(err);
-		console.log(err.stack);
-	}else{
-		console.log("Message send successfully");
-		console.log(res);
-	}
+push.send({
+	title: 'yo',
+	message: 'some shit went down.',
+	url: '...',
+	sound: 'magic',
+	//...any other API param...
 });
+
+
 ```
 
-
-__Example with the USERKEY given when the message is send__
-
-```js
-var Pushover = require('node-pushover');
-var push = new Pushover({
-	token: "APPTOKEN"
-});
-
-// No callback function defined:
-push.send("USERKEY", "Some title", "Node.js is Cool!! - no callback");
-
-// A callback function is defined:
-push.send("USERKEY", "Some title", "Node.js is Cool!!", function (err, res){
-	if(err){
-		console.log("We have an error:");
-		console.log(err);
-		console.log(err.stack);
-	}else{
-		console.log("Message send successfully");
-		console.log(res);
-	}
-});
-```
